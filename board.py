@@ -5,22 +5,22 @@ import copy
 class Board:
     def __init__(self):
         self.board = [[None for i in range(6)] for j in range(6)]
-        self.board[0][0] = knight(1)
-        self.board[1][0] = bishop(1)
-        self.board[2][0] = rook(1)
-        self.board[3][0] = king(1)
-        self.board[4][0] = bishop(1)
-        self.board[5][0] = knight(1)
+        self.board[0][0] = knight(1,0,0)
+        self.board[1][0] = bishop(1,1,0)
+        self.board[2][0] = rook(1,2,0)
+        self.board[3][0] = king(1,2,0)
+        self.board[4][0] = bishop(1,2,0)
+        self.board[5][0] = knight(1,2,0)
 
-        self.board[0][5] = knight(0)
-        self.board[1][5] = bishop(0)
-        self.board[2][5] = rook(0)
-        self.board[3][5] = king(0)
-        self.board[4][5] = bishop(0)
-        self.board[5][5] = knight(0)
+        self.board[0][5] = knight(0,2,0)
+        self.board[1][5] = bishop(0,2,0)
+        self.board[2][5] = rook(0,2,0)
+        self.board[3][5] = king(0,2,0)
+        self.board[4][5] = bishop(0,2,0)
+        self.board[5][5] = knight(0,2,0)
         for i in range(6):
-            self.board[i][1] = pawn(1)
-            self.board[i][4] = pawn(0)
+            self.board[i][1] = pawn(1,i,4)
+            self.board[i][4] = pawn(0,i,4)
     def __str__(self):
         return str(self.board)
     def __repr__(self):
@@ -75,7 +75,7 @@ class Board:
         return pieceList
     
     def make_moves(self, piece,x,y,xn,yn):
-        moveset=piece.get_moves(self.board,x,y)
+        moveset=piece.get_moves(self.board)
         if (xn,yn) in moveset:
             if self.board[xn][yn]!=None and self.board[xn][yn].get_color()!=piece.get_color():
                 temp=self.get_piece(xn,yn)

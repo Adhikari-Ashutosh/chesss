@@ -4,7 +4,7 @@
 #DEFINED 0 AS WHITE AND 1 AS BLACK
 #import deepcopy
 import copy
-from pieces.King import *
+
 class piece:
     def __init__(self,color,x,y):
         self.color=color
@@ -39,7 +39,8 @@ class piece:
         return False
 
 class king(piece):
-    def __init__(self):
+    def __init__(self,color,x,y):
+        super().__init__(color,x,y)
         self.symbol="K"
         self.value=0
         self.name="king"
@@ -107,7 +108,8 @@ class king(piece):
         
 
 class rook(piece):
-    def __init__(self):
+    def __init__(self,color,x,y):
+        super().__init__(color,x,y)
         self.symbol="R"
         self.value=5
         self.name="rook"
@@ -153,10 +155,12 @@ class rook(piece):
 
 
 class bishop(piece):
-    def __init__(self):
-        self.symbol="B"
+    def __init__(self,color,x,y):
+        super().__init__(color,x,y)
         self.value=3
         self.name="bishop"
+        self.symbol="B"
+        
     def get_moves(self,board):
         moves = []
         #check if the bishop can move up and left
@@ -215,7 +219,8 @@ class bishop(piece):
 
 
 class knight(piece):
-    def __init__(self):
+    def __init__(self,color,x,y):
+        super().__init__(color,x,y)
         self.symbol="N"
         self.value=3
         self.name="knight"
@@ -273,7 +278,8 @@ class knight(piece):
 
 
 class pawn(piece):
-    def __init__(self):
+    def __init__(self,color,x,y):
+        super().__init__(color,x,y)
         self.symbol="P"
         self.value=1
         self.name="pawn"
@@ -289,7 +295,7 @@ class pawn(piece):
                     if board[self.x-1][self.y-1]!=None and board[self.x-1][self.y-1].get_color()!=self.color:
                         moves.append((self.x-1,self.y-1))
                 if self.x+1<5:
-                    if board[self.x+1][self.y-1]==None and board[self.x+1][self.y-1].get_color()!=self.color:
+                    if board[self.x+1][self.y-1]!=None and board[self.x+1][self.y-1].get_color()!=self.color:
                         moves.append((self.x+1,self.y-1))
         #check if the pawn can go down
         if self.color==1:
@@ -298,10 +304,10 @@ class pawn(piece):
                 if board[self.x][self.y+1]==None:
                     moves.append((self.x,self.y+1))
                 if self.x-1>-1:
-                    if board[self.x-1][self.y+1]==None and board[self.x-1][self.y+1].get_color()!=self.colour:
+                    if board[self.x-1][self.y+1]!=None and board[self.x-1][self.y+1].get_color()!=self.colour:
                         moves.append((self.x-1,self.y+1))
                 if self.x+1<5:
-                    if board[self.x+1][self.y+1]==None and board[self.x+1][self.y+1].get_color()!=self.colour:
+                    if board[self.x+1][self.y+1]!=None and board[self.x+1][self.y+1].get_color()!=self.colour:
                         moves.append((self.x+1,self.y+1))
 
         return moves

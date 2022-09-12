@@ -11,11 +11,11 @@ pygame.display.set_caption("6*6 Chess")
 #set the background color
 screen.fill((0, 0, 0))
 #load images in
-board = pygame.image.load("ISProj\\assets\\board.png")
+board = pygame.image.load("assets\\board.png")
 
 #resize board image to 600*600
 board1 = pygame.transform.scale(board, (360, 360))
-screen.blit(board, (0, 0))
+screen.blit(board1, (0, 0))
 
 #create an exit loop
 #create an instance of the board
@@ -30,7 +30,7 @@ while running:
     for i in range(6):
         for j in range(6):
             if board.get_piece(i, j) != None:
-                screen.blit(pygame.image.load("ISProj\\assets\\"+str(board.get_piece(i,j))+".png"), (i*60, j*60))
+                screen.blit(pygame.image.load("assets\\"+str(board.get_piece(i,j))+".png"), (i*60, j*60))
     #checking for mouse click
     
     for event in pygame.event.get():
@@ -46,7 +46,7 @@ while running:
                 x=x//60
                 y=y//60
                 if board.get_piece(x, y) != None:
-                    choiceli=board.get_piece(x,y).get_moves(board.board,x,y)
+                    choiceli=board.get_piece(x,y).get_moves(board.board)
                     print(x,y,board.get_piece(x,y).get_color())
                     print(choiceli)
                     for i in choiceli:
