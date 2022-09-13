@@ -22,6 +22,7 @@ screen.blit(board1, (0, 0))
 board = Board()
 running = True
 update = True
+turn=0
 while running:
     if update:
         #clear the display
@@ -32,7 +33,8 @@ while running:
             if board.get_piece(i, j) != None:
                 screen.blit(pygame.image.load("assets\\"+str(board.get_piece(i,j))+".png"), (i*60, j*60))
     #checking for mouse click
-    
+    if board.is_check(turn):
+        pygame.draw.rect(screen, (0, 0, 255), (board.get_king(turn)[0]*60, board.get_king(turn)[1]*60, 60, 60), 2)
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT:
@@ -41,14 +43,18 @@ while running:
             print(50*"-")
             board.printBoard()
             print(50*"-")
+            
             if update:
                 (x,y) = pygame.mouse.get_pos()
                 x=x//60
                 y=y//60
-                if board.get_piece(x, y) != None:
-                    choiceli=board.get_piece(x,y).get_moves(board.board)
+                if board.get_piece(x, y) != None and board.get_piece(x, y).get_color() == turn:
+                    choiceli=board.get_piece(x,y).get_moves(board)
                     print(x,y,board.get_piece(x,y).get_color())
                     print(choiceli)
+                    if board.is_check(turn):
+                        choiceli=board.allowed_moves(board.get_piece(x,y))
+                        print(choiceli)
                     for i in choiceli:
                         update=False
                         pygame.draw.rect(screen, (255, 0, 0), (i[0]*60, i[1]*60, 60, 60), 2)
@@ -58,6 +64,7 @@ while running:
                 yn=yn//60
                 if (xn,yn) in choiceli:
                     print(board.make_moves(board.get_piece(x,y),x=x,y=y,xn=xn,yn=yn))
+                    turn=1-turn
                     update=True
                 else:
                     update=True

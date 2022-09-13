@@ -5,6 +5,7 @@
 #import deepcopy
 import copy
 
+
 class piece:
     def __init__(self,color,x,y):
         self.color=color
@@ -49,60 +50,60 @@ class king(piece):
         move_set=[]
         #up
         if self.y-1>-1:
-            if board[self.x][self.y-1]==None:
+            if board.board[self.x][self.y-1]==None:
                 move_set.append((self.x,self.y-1))
             else:
-                if self.capture(board[self.x][self.y-1]):
+                if self.capture(board.board[self.x][self.y-1]):
                     move_set.append((self.x,self.y-1))
         #down
-        if self.y+1<5:
-            if board[self.x][self.y+1]==None:
+        if self.y+1<6:
+            if board.board[self.x][self.y+1]==None:
                 move_set.append((self.x,self.y+1))
             else:
-                if self.capture(board[self.x][self.y+1]):
+                if self.capture(board.board[self.x][self.y+1]):
                     move_set.append((self.x,self.y+1))
         #left
         if self.x-1>-1:
-            if board[self.x-1][self.y]==None:
+            if board.board[self.x-1][self.y]==None:
                 move_set.append((self.x-1,self.y))
             else:
-                if self.capture(board[self.x-1][self.y]):
+                if self.capture(board.board[self.x-1][self.y]):
                     move_set.append((self.x-1,self.y))
         #right
-        if self.x+1<5:
-            if board[self.x+1][self.y]==None:
+        if self.x+1<6:
+            if board.board[self.x+1][self.y]==None:
                 move_set.append((self.x+1,self.y))
             else:
-                if self.capture(board[self.x+1][self.y]):
+                if self.capture(board.board[self.x+1][self.y]):
                     move_set.append((self.x+1,self.y))
         #up-left
         if self.x-1>-1 and self.y-1>-1:
-            if board[self.x-1][self.y-1]==None:
+            if board.board[self.x-1][self.y-1]==None:
                 move_set.append((self.x-1,self.y-1))
             else:
-                if self.capture(board[self.x-1][self.y-1]):
+                if self.capture(board.board[self.x-1][self.y-1]):
                     move_set.append((self.x-1,self.y-1))
         #up-right
-        if self.x+1<5 and self.y-1>-1:
-            if board[self.x+1][self.y-1]==None:
+        if self.x+1<6 and self.y-1>-1:
+            if board.board[self.x+1][self.y-1]==None:
                 move_set.append((self.x+1,self.y-1))
             else:
-                if self.capture(board[self.x+1][self.y-1]):
+                if self.capture(board.board[self.x+1][self.y-1]):
                     move_set.append((self.x+1,self.y-1))
         #down-left
-        if self.x-1>-1 and self.y+1<5:
-            if board[self.x-1][self.y+1]==None:
+        if self.x-1>-1 and self.y+1<6:
+            if board.board[self.x-1][self.y+1]==None:
                 move_set.append((self.x-1,self.y+1))
             else:
-                if self.capture(board[self.x-1][self.y+1]):
+                if self.capture(board.board[self.x-1][self.y+1]):
                     move_set.append((self.x-1,self.y+1))
         
         #down-right
-        if self.x+1<5 and self.y+1<5:
-            if board[self.x+1][self.y+1]==None:
+        if self.x+1<6 and self.y+1<6:
+            if board.board[self.x+1][self.y+1]==None:
                 move_set.append((self.x+1,self.y+1))
             else:
-                if self.capture(board[self.x+1][self.y+1]):
+                if self.capture(board.board[self.x+1][self.y+1]):
                     move_set.append((self.x+1,self.y+1))
         return move_set
         
@@ -111,42 +112,42 @@ class rook(piece):
     def __init__(self,color,x,y):
         super().__init__(color,x,y)
         self.symbol="R"
-        self.value=5
+        self.value=6
         self.name="rook"
     def get_moves(self,board):
                 moves = []
             #check if the rook can move left
                 for i in range(self.x - 1, -1, -1):
-                    if board[i][self.y] == None:
+                    if board.board[i][self.y] == None:
                         moves.append((i, self.y))
-                    elif board[i][self.y].get_color() != self.color:
+                    elif board.board[i][self.y].get_color() != self.color:
                         moves.append((i, self.y))
                         break
                     else:
                         break
                 #check if the rook can move right
                 for i in range(self.x + 1, 6):
-                    if board[i][self.y] == None:
+                    if board.board[i][self.y] == None:
                         moves.append((i, self.y))
-                    elif board[i][self.y].get_color() != self.color:
+                    elif board.board[i][self.y].get_color() != self.color:
                         moves.append((i, self.y))
                         break
                     else:
                         break
                 #check if the rook can move up
                 for i in range(self.y - 1, -1, -1):
-                    if board[self.x][i] == None:
+                    if board.board[self.x][i] == None:
                         moves.append((self.x, i))
-                    elif board[self.x][i].get_color() != self.color:
+                    elif board.board[self.x][i].get_color() != self.color:
                         moves.append((self.x, i))
                         break
                     else:
                         break
                 #check if the rook can move down
                 for i in range(self.y + 1, 6):
-                    if board[self.x][i] == None:
+                    if board.board[self.x][i] == None:
                         moves.append((self.x, i))
-                    elif board[self.x][i].get_color() != self.color:
+                    elif board.board[self.x][i].get_color() != self.color:
                         moves.append((self.x, i))
                         break
                     else:
@@ -167,9 +168,9 @@ class bishop(piece):
         i = self.x - 1
         j = self.y - 1
         while i > -1 and j > -1:
-            if board[i][j] == None:
+            if board.board[i][j] == None:
                 moves.append((i, j))
-            elif board[i][j].get_color() != self.color:
+            elif board.board[i][j].get_color() != self.color:
                 moves.append((i, j))
                 break
             else:
@@ -180,9 +181,9 @@ class bishop(piece):
         i = self.x - 1
         j = self.y + 1
         while i > -1 and j < 6:
-            if board[i][j] == None:
+            if board.board[i][j] == None:
                 moves.append((i, j))
-            elif board[i][j].get_color() != self.color:
+            elif board.board[i][j].get_color() != self.color:
                 moves.append((i, j))
                 break
             else:
@@ -193,9 +194,9 @@ class bishop(piece):
         i = self.x + 1
         j = self.y - 1
         while i < 6 and j > -1:
-            if board[i][j] == None:
+            if board.board[i][j] == None:
                 moves.append((i, j))
-            elif board[i][j].get_color() != self.color:
+            elif board.board[i][j].get_color() != self.color:
                 moves.append((i, j))
                 break
             else:
@@ -206,9 +207,9 @@ class bishop(piece):
         i = self.x + 1
         j = self.y + 1
         while i < 6 and j < 6:
-            if board[i][j] == None:
+            if board.board[i][j] == None:
                 moves.append((i, j))
-            elif board[i][j].get_color() != self.color:
+            elif board.board[i][j].get_color() != self.color:
                 moves.append((i, j))
                 break
             else:
@@ -228,51 +229,51 @@ class knight(piece):
         moves = []
         #check if the knight can move up and left
         if self.x - 2 > -1 and self.y - 1 > -1:
-            if board[self.x - 2][self.y - 1] == None:
+            if board.board[self.x - 2][self.y - 1] == None:
                 moves.append((self.x - 2, self.y - 1))
-            elif board[self.x - 2][self.y - 1].get_color() != self.color:
+            elif board.board[self.x - 2][self.y - 1].get_color() != self.color:
                 moves.append((self.x - 2, self.y - 1))
         #check if the knight can move up and right
         if self.x - 2 > -1 and self.y + 1 < 6:
-            if board[self.x - 2][self.y + 1] == None:
+            if board.board[self.x - 2][self.y + 1] == None:
                 moves.append((self.x - 2, self.y + 1))
-            elif board[self.x - 2][self.y + 1].get_color() != self.color:
+            elif board.board[self.x - 2][self.y + 1].get_color() != self.color:
                 moves.append((self.x - 2, self.y + 1))
         #check if the knight can move down and left
         if self.x + 2 < 6 and self.y - 1 > -1:
-            if board[self.x + 2][self.y - 1] == None:
+            if board.board[self.x + 2][self.y - 1] == None:
                 moves.append((self.x + 2, self.y - 1))
-            elif board[self.x + 2][self.y - 1].get_color() != self.color:
+            elif board.board[self.x + 2][self.y - 1].get_color() != self.color:
                 moves.append((self.x + 2, self.y - 1))
         #check if the knight can move down and right
         if self.x + 2 < 6 and self.y + 1 < 6:
-            if board[self.x + 2][self.y + 1] == None:
+            if board.board[self.x + 2][self.y + 1] == None:
                 moves.append((self.x + 2, self.y + 1))
-            elif board[self.x + 2][self.y + 1].get_color() != self.color:
+            elif board.board[self.x + 2][self.y + 1].get_color() != self.color:
                 moves.append((self.x + 2, self.y + 1))
         #check if the knight can move left and up
         if self.x - 1 > -1 and self.y - 2 > -1:
-            if board[self.x - 1][self.y - 2] == None:
+            if board.board[self.x - 1][self.y - 2] == None:
                 moves.append((self.x - 1, self.y - 2))
-            elif board[self.x - 1][self.y - 2].get_color() != self.color:
+            elif board.board[self.x - 1][self.y - 2].get_color() != self.color:
                 moves.append((self.x - 1, self.y - 2))
         #check if the knight can move left and down
         if self.x + 1 < 6 and self.y - 2 > -1:
-            if board[self.x + 1][self.y - 2] == None:
+            if board.board[self.x + 1][self.y - 2] == None:
                 moves.append((self.x + 1, self.y - 2))
-            elif board[self.x + 1][self.y - 2].get_color() != self.color:
+            elif board.board[self.x + 1][self.y - 2].get_color() != self.color:
                 moves.append((self.x + 1, self.y - 2))
         #check if the knight can move right and up
         if self.x - 1 > -1 and self.y + 2 < 6:
-            if board[self.x - 1][self.y + 2] == None:
+            if board.board[self.x - 1][self.y + 2] == None:
                 moves.append((self.x - 1, self.y + 2))
-            elif board[self.x - 1][self.y + 2].get_color() != self.color:
+            elif board.board[self.x - 1][self.y + 2].get_color() != self.color:
                 moves.append((self.x - 1, self.y + 2))
         #check if the knight can move right and down
         if self.x + 1 < 6 and self.y + 2 < 6:
-            if board[self.x + 1][self.y + 2] == None:
+            if board.board[self.x + 1][self.y + 2] == None:
                 moves.append((self.x + 1, self.y + 2))
-            elif board[self.x + 1][self.y + 2].get_color() != self.color:
+            elif board.board[self.x + 1][self.y + 2].get_color() != self.color:
                 moves.append((self.x + 1, self.y + 2))
         return moves
 
@@ -289,25 +290,25 @@ class pawn(piece):
         if self.color==0:
             #white
             if self.y-1>-1:
-                if board[self.x][self.y-1]==None:
+                if board.board[self.x][self.y-1]==None:
                     moves.append((self.x,self.y-1))
                 if self.x-1>-1:
-                    if board[self.x-1][self.y-1]!=None and board[self.x-1][self.y-1].get_color()!=self.color:
+                    if board.board[self.x-1][self.y-1]!=None and board.board[self.x-1][self.y-1].get_color()!=self.color:
                         moves.append((self.x-1,self.y-1))
-                if self.x+1<5:
-                    if board[self.x+1][self.y-1]!=None and board[self.x+1][self.y-1].get_color()!=self.color:
+                if self.x+1<6:
+                    if board.board[self.x+1][self.y-1]!=None and board.board[self.x+1][self.y-1].get_color()!=self.color:
                         moves.append((self.x+1,self.y-1))
         #check if the pawn can go down
         if self.color==1:
             #black
-             if self.y+1<5:
-                if board[self.x][self.y+1]==None:
+             if self.y+1<6:
+                if board.board[self.x][self.y+1]==None:
                     moves.append((self.x,self.y+1))
                 if self.x-1>-1:
-                    if board[self.x-1][self.y+1]!=None and board[self.x-1][self.y+1].get_color()!=self.colour:
+                    if board.board[self.x-1][self.y+1]!=None and board.board[self.x-1][self.y+1].get_color()!=self.color:
                         moves.append((self.x-1,self.y+1))
-                if self.x+1<5:
-                    if board[self.x+1][self.y+1]!=None and board[self.x+1][self.y+1].get_color()!=self.colour:
+                if self.x+1<6:
+                    if board.board[self.x+1][self.y+1]!=None and board.board[self.x+1][self.y+1].get_color()!=self.color:
                         moves.append((self.x+1,self.y+1))
 
         return moves
