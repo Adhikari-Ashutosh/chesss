@@ -2,6 +2,8 @@
 from pieces import *
 import copy
 #Create a board class to represent the board
+import copy
+#Create a board class to represent the board
 class Board:
     def __init__(self):
         self.board = [[None for i in range(6)] for j in range(6)]
@@ -21,6 +23,7 @@ class Board:
         for i in range(6):
             self.board[i][1] = pawn(1,i,1)
             self.board[i][4] = pawn(0,i,4)
+        self.movehistory=[]
     def __str__(self):
         return str(self.board)
     def __repr__(self):
@@ -37,6 +40,9 @@ class Board:
         return self.board[row][col]
     def set_piece(self, row, col, piece):
         self.board[row][col] = piece
+        if piece!=None:
+            piece.x=row
+            piece.y=col
     def printBoard(self):
         for j in range(6):
             for i in range(6):
@@ -50,39 +56,34 @@ class Board:
         for i in range(6):
             for j in range(6):
                 if self.board[i][j] != None:
-                    if self.board[i][j].getColor() == color:
+                    if self.board[i][j].get_color() == color:
                         pieceList.append(self.board[i][j])
         return pieceList
     def getKing(self, color):
         for i in range(6):
             for j in range(6):
                 if self.board[i][j] != None:
-                    if self.board[i][j].getColor() == color and self.board[i][j].get_symbol() == "K":
+                    if self.board[i][j].get_color() == color and self.board[i][j].get_symbol() == "K":
                         return self.board[i][j]
     def draw(self):
         return self.stalemate(0) and self.stalemate(1)
-    def getPieceList(self, color):
-        pieceList = []
-        for i in range(6):
-            for j in range(6):
-                if self.board[i][j] != None:
-                    if self.board[i][j].get_color() == color:
-                        pieceList.append(self.board[i][j])
-        return pieceList
     #define allowed moves during a check
     def allowed_moves(self,piece):
         allowed = []
         moveset=piece.get_moves(self)
         for move in moveset:
             newboard=copy.deepcopy(self)
-            newboard.make_moves(piece,piece.x,piece.y,move[0],move[1])
+            newboard.set_piece(piece.x,piece.y,None)
+            newboard.set_piece(move[0],move[1],piece)
+            
             if not newboard.is_check(piece.color):
                 allowed.append((move[0],move[1]))
         return allowed
                                 
     def make_moves(self, piece,x,y,xn,yn):
         moveset=piece.get_moves(self)
-        if (xn,yn) in moveset:
+        allowed_moves=self.allowed_moves(piece)
+        if (xn,yn) in moveset and (xn,yn) in allowed_moves:
             if self.board[xn][yn]!=None and self.board[xn][yn].get_color()!=piece.get_color():
                 temp=self.get_piece(xn,yn)
                 self.set_piece(xn,yn,self.get_piece(x,y))            
@@ -97,7 +98,7 @@ class Board:
                     self.get_piece(xn,yn).x=xn
                     self.get_piece(xn,yn).y=yn
                     self.pawn_promotion(piece,piece.get_color(),xn,yn)
-
+                    self.movehistory.append((x,y,xn,yn))
                     return True
             else:
                 self.set_piece(xn,yn,self.get_piece(x,y))
@@ -105,6 +106,7 @@ class Board:
                 self.get_piece(xn,yn).x=xn
                 self.get_piece(xn,yn).y=yn
                 self.pawn_promotion(piece,piece.get_color(),xn,yn)
+                self.movehistory.append((x,y,xn,yn))
                 return True
         else:
             return False
@@ -161,6 +163,10 @@ class Board:
                                 return False
         return True
     def is_draw(self):
+        #if last 6 alternate moves are same then draw
+        if len(self.movehistory)>12:
+            if self.movehistory[-1]==self.movehistory[-3] and self.movehistory[-2]==self.movehistory[-4] and self.movehistory[-5]==self.movehistory[-7] and self.movehistory[-6]==self.movehistory[-8]:
+                return True
         if self.is_stalemate(0) or self.is_stalemate(1):
             return True
         return False
@@ -192,9 +198,3 @@ class Board:
             else:
                 if y == 5:
                     self.set_piece(x, y, rook(color,x,y))
-
-    
-
-                           
-    
-    
